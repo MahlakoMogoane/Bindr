@@ -5,15 +5,48 @@ using RedirectFormsPlatform.API.Models;
 using RedirectFormsPlatform.API.Data.EntityConfigurations;*/
 ///using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using Supabase;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ───────────────────────────────
-// 1. Configure Services
+// 1. Configure Supabase Client
+// ───────────────────────────────
+// Register builder with supabase
+builder.Services.AddSingleton<Supabase.Client>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+
+    var url = configuration["SUPABASE_URL"];
+    var publicKey = configuration["SUPABASE_ANON_KEY"];
+    var privateKey = configuration["SUPABASE_SECRET_KEY"];
+
+    if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(publicKey) || string.IsNullOrEmpty(privateKey))
+    {
+        throw new InvalidOperationException("Supabase URL, public key, or private key missing");
+    }
+
+    var options = new Supabase.SupabaseOptions
+    {
+        AutoConnectRealtime = false
+    };
+
+    var supabaseClient = new Supabase.Client(url, publicKey, options);
+
+    // Asynchronously initialize client but block startup until it's done
+    supabaseClient.InitializeAsync().Wait();
+
+    return supabaseClient;
+});
+
+
+// ───────────────────────────────
+// 2. Configure Services
 // ───────────────────────────────
 // Register DbContext with Npgsql (PostgreSQL)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Register other services
 builder.Services.AddControllersWithViews();
@@ -72,12 +105,12 @@ builder.Services.AddSwaggerGen(options =>
 });*/
 
 // ───────────────────────────────
-// 2. Build App
+// 3. Build App
 // ───────────────────────────────
 var app = builder.Build();
 
 // ───────────────────────────────
-// 3. Configure Middleware Pipeline
+// 4. Configure Middleware Pipeline
 // ───────────────────────────────
 /*if (app.Environment.IsDevelopment())
 {
