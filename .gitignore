@@ -1,0 +1,100 @@
+# Visual Studio specific files
+.vs/
+*.suo
+*.user
+*.userprefs
+*.ide/
+[Dd]ebug/
+[Rr]elease/
+obj/
+bin/
+.tlog
+*.pdb
+*.opendb
+*.VC.db
+
+# Rider specific files
+.idea/
+*.sln.DotSettings
+*.csproj.DotSettings
+*.DotSettings.user
+
+# VS Code specific files
+.vscode/
+
+# Build results
+artifacts/
+publish/
+
+# NuGet packages
+packages/
+*.nupkg
+.nuget/
+!/.nuget/NuGet.Config # Keep NuGet.Config if it contains custom feeds
+
+# Restore files
+project.lock.json
+project.assets.json
+*.nuget.cache
+
+# Resharper and other JetBrains files
+*.resharper
+*.resharper.user
+_ReSharper.*/
+resharper-host/
+
+# NPM and Node.js (if you have a frontend project in the same repo)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+.parcel-cache/
+dist/ # Often output directory for frontend builds
+
+# Entity Framework Core migrations history
+# This is crucial! Never commit your database migration snapshots.
+# Only the C# migration files themselves should be tracked.
+# The actual database snapshot files can change with every migration.
+# The default location is `Migrations/{DbContextName}ModelSnapshot.cs`
+# You usually DO want to keep the migration files (e.g., InitialCreate.cs),
+# but not the compiled outputs or temporary files.
+# The .cs files for migrations should be tracked, but the snapshot data often causes issues if it's the exact compiled output.
+# The general rule is: commit your Migrations/<timestamp>_MigrationName.cs files
+# but DO NOT commit the snapshot or compiled output.
+# If you regenerate a migration, you might get a new snapshot.
+
+# Specific to your project:
+# .env file for local environment variables (Supabase keys, connection strings, etc.)
+.env
+
+# User Secrets (for local development sensitive data)
+# These are outside your project directory in your user profile
+# so you don't typically need a specific entry here unless you move them.
+# The 'dotnet user-secrets' command handles their placement.
+
+# Editor backup files
+*~
+*.bak
+*.swo
+*.swp
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code extension configurations
+.vscode-test/
+
+# Miscellaneous
+*.log
+*.sqlite
+*.sqlite-journal
+*.db
+*.sdf
+*.ldf
+*.mdf
+
+# Code analysis and test results
+TestResults/
+.sonarqube/
